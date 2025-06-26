@@ -61,16 +61,7 @@ spec:
         fsGroup: 1000
         runAsNonRoot: true                                                                                                                                                          
         runAsGroup: 1000
-        runAsUser: 1000
-      affinity:                                                                                                                                                                                                                                                                          
-        nodeAffinity:                                                                                                                                                                                                                                                                    
-          requiredDuringSchedulingIgnoredDuringExecution:                                                                                                                                                                                                                                
-            nodeSelectorTerms:                                                                                                                                                                                                                                                           
-            - matchExpressions:                                                                                                                                                                                                                                                          
-              - key: topology.kubernetes.io/zone                                                                                                                                                                                                                                         
-                operator: In                                                                                                                                                                                                                                                             
-                values:                                                                                                                                                                                                                                                                  
-                - us-east-1c  
+        runAsUser: 1000 
       containers:
       - name: anything-llm
         resources:
