@@ -1,19 +1,4 @@
 ---
-apiVersion: v1                                                                                                                                           
-kind: PersistentVolume                                                                                                                                   
-metadata:                                                                                                                                                
-  name: anything-llm-volume                                                                                                                              
-  annotations:                                                                                                                                           
-    pv.beta.kubernetes.io/uid: "1000"                                                                                                                    
-    pv.beta.kubernetes.io/gid: "1000"                                                                                                                    
-spec:                                                                                                                                                    
-  storageClassName: nutanix-volume                                                                                                                                  
-  capacity:                                                                                                                                              
-    storage: 5Gi                                                                                                                                        
-  accessModes:                                                                                                                                           
-    - ReadWriteOnce
-                                                                                                                                      
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -25,6 +10,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
+  storageClassName: nutanix-volume
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -41,8 +27,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 0%
-      maxUnavailable: 100%
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
