@@ -130,10 +130,10 @@ metadata:
   name: anything-llm-ingress
   annotations:
     external-dns.alpha.kubernetes.io/hostname: tke-anythingllm.ntnxlab.ch
-    kubernetes.io/ingress.class: "internal-ingress"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    ingress.kubernetes.io/ssl-redirect: "false"
+    # Removed NGINX-specific and ssl-redirect annotations; Traefik handles TLS via spec.tls
+    # If you need path rewriting (unlikely here), add a Traefik Middleware CRD separately
 spec:
+  ingressClassName: kommander-traefik  # Matches your cluster's IngressClass; preferred over annotation
   rules:
   - host: tke-anythingllm.ntnxlab.ch
     http:
@@ -143,9 +143,9 @@ spec:
         backend:
           service:
             name: anything-llm-svc
-            port: 
+            port:
               number: 3001
-  tls: # < placing a host in the TLS config will indicate a cert should be created
+  tls:
     - hosts:
         - tke-anythingllm.ntnxlab.ch
       secretName: letsencrypt-prod
