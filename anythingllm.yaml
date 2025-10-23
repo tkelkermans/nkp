@@ -159,7 +159,7 @@ metadata:
 spec:
   ports:
   # "port" is external port, and "targetPort" is internal.
-  - port: 3301
+  - port: 3001
     targetPort: 3001
     name: traffic
   - port: 9090
