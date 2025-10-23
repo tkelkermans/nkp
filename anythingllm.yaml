@@ -129,11 +129,12 @@ kind: Ingress
 metadata:
   name: anything-llm-ingress
   annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: kommander-acme-issuer
     external-dns.alpha.kubernetes.io/hostname: tke-anythingllm.ntnxlab.ch
-    # Removed NGINX-specific and ssl-redirect annotations; Traefik handles TLS via spec.tls
-    # If you need path rewriting (unlikely here), add a Traefik Middleware CRD separately
 spec:
-  ingressClassName: kommander-traefik  # Matches your cluster's IngressClass; preferred over annotation
+  ingressClassName: kommander-traefik
   rules:
   - host: tke-anythingllm.ntnxlab.ch
     http:
@@ -148,7 +149,7 @@ spec:
   tls:
     - hosts:
         - tke-anythingllm.ntnxlab.ch
-      secretName: letsencrypt-prod
+      secretName: anything-llm-tls
 ---
 apiVersion: v1
 kind: Service
